@@ -13,6 +13,6 @@ public enum ItemType
     Vegetables,
     FertilizerBag,
     Pitchfork,
-    EmptyBucket,
+    Baskets,
     HayForLivestock
 }

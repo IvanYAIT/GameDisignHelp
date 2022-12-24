@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b5d2bee4c88b104c82baed61ac1d27f, type: 3}
-  m_Name: EmptyBucket
+  m_Name: HayWorkLivestock
   m_EditorClassIdentifier: 
-  itemType: 4
-  sprite: {fileID: 21300000, guid: 645fffdd411b0f84c887e0a65cad195d, type: 3}
+  itemType: 5
+  sprite: {fileID: 21300000, guid: 913f6afca7c66824085f7afabf6c3e24, type: 3}
