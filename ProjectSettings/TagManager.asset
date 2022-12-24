@@ -10,8 +10,12 @@ TagManager:
   - Vegetables
   - FertilizerBag
   - Pitchfork
-  - EmptyBucket
-  - HayForLivestock
+  - NPC
+  - Livestock
+  - Bed
+  - Cattle
+  - Plant
+  - Baskets
   layers:
   - Default
   - TransparentFX
