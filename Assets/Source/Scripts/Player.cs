@@ -1,31 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private Inventory inventory;
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private Slider endurance;
+
+    public static Action<bool> OnZeroEndurance;
+
     private string[] items;
     private bool isQuest;
     private bool isDayEnd;
-
 
     void Start()
     {
         items = new string[] { "BucketWithWater", "Vegetables", "FertilizerBag", "Pitchfork", "Baskets", "HayForLivestock" };
         Dialog.OnQuestTake += Quest;
         QuestPlace.OnQuestComplete += Quest;
-        Dialog.OnDayEnd += DayEnd;
+        QuestPlace.OnQuestComplete += DecreaseEndurance;
         Bed.OnDayStart += DayEnd;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (endurance.value <= 0.1f)
+        {
+            OnZeroEndurance?.Invoke(true);
+            DayEnd(true);
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -132,7 +139,7 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        if (other.CompareTag("Cettle"))
+        if (other.CompareTag("Cattle"))
         {
             if (CheckAnItemInInventory(ItemType.HayForLivestock) && CheckAnItemInInventory(ItemType.BucketWithWater))
             {
@@ -160,6 +167,7 @@ public class Player : MonoBehaviour
             CheckQuest(other);
         if (other.CompareTag("Bed") && Input.GetKeyDown(KeyCode.E) && isDayEnd)
             other.gameObject.GetComponent<Bed>().Sleep();
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -167,9 +175,18 @@ public class Player : MonoBehaviour
         text.text = "";
     }
 
+    public void DecreaseEndurance(bool yes)
+    {
+        endurance.value -= 0.19f;
+    }
+
     public void Quest(bool isQuest) =>
         this.isQuest = isQuest;
 
-    public void DayEnd(bool isDayEnd) =>
+    public void DayEnd(bool isDayEnd)
+    {
         this.isDayEnd = isDayEnd;
+        if (!isDayEnd)
+            endurance.value = endurance.maxValue;
+    }
 }

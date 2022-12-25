@@ -33,8 +33,8 @@ public class QuestPlace : MonoBehaviour
         if(IsActive)
             switch (questType)
             {
-                case QuestType.DistributeHay:
-                    text.text = "Нажмите Q чтобы распределить сено";
+                case QuestType.FeedAndWaterCettle:
+                    text.text = "Нажмите Q чтобы покормить и напоить рогатый скот";
                     break;
                 case QuestType.FeedAndWaterLivestock:
                     text.text = "Нажмите Q чтобы покормить и напоить скот";
@@ -46,7 +46,9 @@ public class QuestPlace : MonoBehaviour
                     text.text = "Нажмите Q чтобы полить огород";
                     break;
                 default:
+                    text.text = "";
                     break;
             }
     }
+
 }

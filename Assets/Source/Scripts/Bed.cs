@@ -2,38 +2,45 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Bed : MonoBehaviour
 {
     [SerializeField] private GameObject darkPanel;
+    [SerializeField] private PlayerInput playerInput;
 
     public static Action<bool> OnDayStart;
 
     private bool isDayEnd;
+    private bool isSleep;
     private int alpha;
     private Color color;
 
     void Start()
     {
         color = darkPanel.GetComponent<Image>().color;
-        Dialog.OnDayEnd += DayEnd;
+        Player.OnZeroEndurance += DayEnd;
+    }
+
+    private void Update()
+    {
+        if (alpha == 2)
+            isDayEnd = false;
+        if (!isDayEnd && isSleep)
+        {
+            playerInput.ActivateInput();
+            OnDayStart?.Invoke(isDayEnd);
+            isSleep = false;
+            alpha = 0;
+        }
     }
 
     public void Sleep()
     {
-        if (isDayEnd)
-        {
-            Time.timeScale = 0;
-            StartCoroutine(IncreaseDecreaseAlpha());
-            if (alpha == 2)
-                isDayEnd = false;
-        }
-        else
-        {
-            Time.timeScale = 1;
-            OnDayStart?.Invoke(isDayEnd);
-        }
+        playerInput.DeactivateInput();
+        StartCoroutine(IncreaseDecreaseAlpha());
+        isSleep = true;
     }
 
     public void DayEnd(bool isDayEnd) =>

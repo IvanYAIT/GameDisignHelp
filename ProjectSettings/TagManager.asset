@@ -16,6 +16,8 @@ TagManager:
   - Cattle
   - Plant
   - Baskets
+  - HayForLivestock
+  - Garden
   layers:
   - Default
   - TransparentFX
