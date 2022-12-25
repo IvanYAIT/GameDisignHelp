@@ -1,7 +1,7 @@
 using TMPro;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.InputSystem;
 
 public class Dialog : MonoBehaviour
 {
@@ -9,14 +9,21 @@ public class Dialog : MonoBehaviour
     [SerializeField] private GameObject dialogPanel;
     [SerializeField] private TextMeshProUGUI dialogText;
     [SerializeField] private TextMeshProUGUI npcNameText;
+    [SerializeField] private PlayerInput playerInput;
 
     public static Action<bool> OnQuestTake;
     public static Action<QuestType> ActivateQuest;
-    public static Action<bool> OnDayEnd;
 
     private int dialogCounter;
     private int textCounter;
     private bool isDialog;
+    private bool isDayEnd;
+
+    private void Start()
+    {
+        Player.OnZeroEndurance += DayEnd;
+        Bed.OnDayStart += DayEnd;
+    }
 
     void Update()
     {
@@ -33,7 +40,6 @@ public class Dialog : MonoBehaviour
                 else
                 {
                     ActivateQuest?.Invoke(dialogData.dialogs[dialogCounter].questType);
-                    OnDayEnd?.Invoke(dialogData.dialogs[dialogCounter].isEndOfTheDay);
                     dialogCounter++;
                     TurnDialog(false);
                     textCounter = 0;
@@ -44,25 +50,38 @@ public class Dialog : MonoBehaviour
 
     public void View(TextMeshProUGUI text)
     {
-        text.text = $"Нажмите R чтобы поговорить с {dialogData.npcName}";
+        if(!isDayEnd)
+            text.text = $"Нажмите R чтобы поговорить с {dialogData.npcName}";
     }
 
     public void TurnDialog(bool OnOff)
     {
-        if (OnOff)
+        if (!isDayEnd)
         {
-            dialogPanel.SetActive(true);
-            Time.timeScale = 0;
-            isDialog = true;
-            OnQuestTake?.Invoke(dialogData.dialogs[dialogCounter].isQuest);
-            npcNameText.text = dialogData.npcName;
-            dialogText.text = dialogData.dialogs[dialogCounter].texts[textCounter];
+            if (OnOff)
+            {
+                playerInput.DeactivateInput();
+                dialogPanel.SetActive(true);
+                Time.timeScale = 0;
+                isDialog = true;
+                if (dialogData.dialogs[dialogCounter].questType == QuestType.None)
+                    OnQuestTake?.Invoke(false);
+                else
+                    OnQuestTake?.Invoke(true);
+                npcNameText.text = dialogData.npcName;
+                dialogText.text = dialogData.dialogs[dialogCounter].texts[textCounter];
+            }
+            else
+            {
+                playerInput.ActivateInput();
+                dialogPanel.SetActive(false);
+                Time.timeScale = 1;
+                isDialog = false;
+            }
         }
-        else
-        {
-            dialogPanel.SetActive(false);
-            Time.timeScale = 1;
-            isDialog = false;
-        }
+            
     }
+
+    public void DayEnd(bool isDayEnd) =>
+        this.isDayEnd = isDayEnd;
 }

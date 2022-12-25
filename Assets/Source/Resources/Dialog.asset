@@ -12,19 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86af8e2fb2e0143b5d69b41cb00219, type: 3}
   m_Name: Dialog
   m_EditorClassIdentifier: 
-  npcName: asdasasd
+  npcName: Sweet Daddy
   dialogs:
   - texts:
-    - a
-    - b
-    - v
-    - g
-    isQuest: 1
+    - Water garden
     questType: 2
-    isEndOfTheDay: 0
   - texts:
-    - f
-    - g
-    isQuest: 0
+    - Feed and water livestock
+    questType: 1
+  - texts:
+    - Feed and water cattle
+    questType: 4
+  - texts:
+    - water and fertilize plant
+    questType: 3
+  - texts:
+    - Feed and water cattle
+    questType: 4
+  - texts:
+    - None
     questType: 0
-    isEndOfTheDay: 1

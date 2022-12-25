@@ -13,9 +13,7 @@ public class DialogData : ScriptableObject
 public class DialogInfo
 {
     public List<string> texts;
-    public bool isQuest;
     public QuestType questType;
-    public bool isEndOfTheDay;
 }
 
 public enum QuestType
@@ -24,5 +22,5 @@ public enum QuestType
     FeedAndWaterLivestock,
     WaterTheGarden,
     WaterAndFertilizeThePlant,
-    DistributeHay
+    FeedAndWaterCettle
 }
