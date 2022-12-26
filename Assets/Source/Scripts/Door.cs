@@ -4,6 +4,7 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     [SerializeField] private Transform doorFrame;
+    [SerializeField] private int diraction = 1;
     private bool isOpen;
     
     public void UseDoor()
@@ -11,13 +12,13 @@ public class Door : MonoBehaviour
         Quaternion rotation = doorFrame.rotation;
         if (!isOpen)
         {
-            rotation.eulerAngles += new Vector3(0, 90, 0);
+            rotation.eulerAngles += new Vector3(0, diraction*90, 0);
             doorFrame.rotation = rotation;
             isOpen = true;
         }
         else
         {
-            rotation.eulerAngles -= new Vector3(0, 90, 0);
+            rotation.eulerAngles -= new Vector3(0, diraction*90, 0);
             doorFrame.rotation = rotation;
             isOpen = false;
         }

@@ -88,6 +88,7 @@ public class Player : MonoBehaviour
                 {
                     inventory.AddItem(other.gameObject.GetComponent<Item>().ItemData);
                     other.gameObject.GetComponent<Item>().DestroyItem();
+                    text.text = "";
                 }
                     
             }
