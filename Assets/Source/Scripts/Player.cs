@@ -73,7 +73,10 @@ public class Player : MonoBehaviour
                 if(tag == "Vegetables")
                 {
                     if (CheckAnItemInInventory(ItemType.Baskets))
+                    {
                         inventory.AddItem(other.gameObject.GetComponent<Item>().ItemData);
+                        other.gameObject.GetComponent<Item>().DestroyItem();
+                    }
                 }
                 else if(tag == "HayForLivestock")
                 {
